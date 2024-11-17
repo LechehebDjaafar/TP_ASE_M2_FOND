@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation Status</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- React & Babel -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">SETRAM</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Reservation Status</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Support</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div id="app" class="container mt-5"></div>
+
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p>&copy; 2024 SETRAM - All Rights Reserved</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom React Component -->
+    <script type="text/babel">
+        function ReservationStatus() {
+            const reservations = [
+                { id: 1, name: 'John Doe', status: 'Confirmed' },
+                { id: 2, name: 'Jane Smith', status: 'Pending' },
+                { id: 3, name: 'Michael Johnson', status: 'Cancelled' }
+            ];
+
+            return (
+                <div>
+                    <h2 className="text-center mb-4">Reservation Status</h2>
+                    <div className="row">
+                        {reservations.map(reservation => (
+                            <div className="col-md-4 mb-3" key={reservation.id}>
+                                <div className={`card ${reservation.status.toLowerCase() === 'confirmed' ? 'bg-success' : reservation.status.toLowerCase() === 'pending' ? 'bg-warning' : 'bg-danger'} text-white`}>
+                                    <div className="card-body">
+                                        <h5 className="card-title">Customer: {reservation.name}</h5>
+                                        <p className="card-text">Status: {reservation.status}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<ReservationStatus />, document.getElementById('app'));
+    </script>
+</body>
+</html>

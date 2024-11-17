@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-6">Loyalty Points System</h1>
+    
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <!-- Total Points Card -->
+        <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg p-6 mb-8">
+            <h2 class="text-lg opacity-90 mb-2">Total Points Balance</h2>
+            <div class="text-3xl font-bold">{{ total_points }}</div>
+        </div>
+        
+        <!-- Points History -->
+        <div class="mb-6">
+            <h2 class="text-xl font-semibold mb-4">Points History</h2>
+            
+            {% if points %}
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Points</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subscription Type</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for point in points_data %}
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium {% if point.points > 0 %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
+                                    {{ point.points }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="text-sm text-gray-900">{{ point.reason }}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium 
+                                    {% if point.subscription_type == 'Monthly' %}bg-blue-100 text-blue-800
+                                    {% elif point.subscription_type == 'Annual' %}bg-purple-100 text-purple-800
+                                    {% elif point.subscription_type == 'Cards Package' %}bg-yellow-100 text-yellow-800
+                                    {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                    {{ point.subscription_type }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ point.created_at }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            {% else %}
+            <div class="text-center py-8">
+                <div class="text-gray-400 mb-2">
+                    <svg class="mx-auto h-12 w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-1">No Points Yet</h3>
+                <p class="text-gray-500">Start earning points with your first subscription!</p>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Points Guide -->
+        <div class="mt-8 bg-gray-50 rounded-lg p-6">
+            <h3 class="text-lg font-semibold mb-4">How to Earn Points</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <div class="text-blue-600 font-semibold mb-2">Monthly Subscription</div>
+                    <p class="text-gray-600">Earn 10 points with monthly subscription</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <div class="text-purple-600 font-semibold mb-2">Annual Subscription</div>
+                    <p class="text-gray-600">Earn 120 points with yearly subscription</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <div class="text-yellow-600 font-semibold mb-2">Cards Package</div>
+                    <p class="text-gray-600">Earn 3 points per 10 cards purchased</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

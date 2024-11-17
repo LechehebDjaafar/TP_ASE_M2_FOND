@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+</head>
+<body>
+    <h1>Welcome to the Homepage</h1>
+
+    <h2>Users</h2>
+    <ul>
+        {% for user in users %}
+            <li>Name: {{ user.name }}, Balance: {{ user.balance }}, Tickets: {{ user.tickets }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Reservations</h2>
+    <ul>
+        {% for reservation in reservations %}
+            <li>User: {{ reservation.user.name }}, Type: {{ reservation.reservation_type }}, Expiration: {{ reservation.expiration_date }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>FAQs</h2>
+    <ul>
+        {% for faq in faqs %}
+            <li>Question: {{ faq.question }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Rewards</h2>
+    <ul>
+        {% for reward in rewards %}
+            <li>User: {{ reward.user.name }}, Points: {{ reward.points }}, Points per Action: {{ reward.points_per_action }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

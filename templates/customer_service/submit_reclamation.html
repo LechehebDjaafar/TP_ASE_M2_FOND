@@ -1,0 +1,61 @@
+{# customer_service/submit_reclamation.html #}
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">Submit Reclamation</h1>
+        <a href="{% url 'customer_service:reservation_status' %}" 
+           class="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Reservations
+        </a>
+    </div>
+
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <form method="POST" class="p-6">
+            {% csrf_token %}
+            <div class="space-y-6">
+                <div>
+                    <label for="reservation" class="block text-sm font-medium text-gray-700">Select Reservation</label>
+                    <select name="reservation_id" id="reservation" required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        <option value="">Select a reservation...</option>
+                        {% for reservation in reservations %}
+                        <option value="{{ reservation.id }}">
+                            Reservation #{{ reservation.id }} - {{ reservation.get_subscription_type_display }}
+                            ({{ reservation.start_date|date:"M d, Y" }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                    <input type="text" name="title" id="title" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+
+                <div>
+                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                    <textarea name="description" id="description" rows="4" required
+                              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
+                </div>
+
+                <div class="flex justify-end space-x-3">
+                    <a href="{% url 'customer_service:reservation_status' %}"
+                       class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                        Cancel
+                    </a>
+                    <button type="submit"
+                            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium">
+                        Submit Reclamation
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

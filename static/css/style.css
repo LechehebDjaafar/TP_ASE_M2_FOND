@@ -1,0 +1,83 @@
+/* CSS */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    direction: rtl;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #005b5b;
+    padding: 10px;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.hero {
+    background-color: #003b3b;
+    color: #fff;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 36px;
+}
+
+.cta-btn {
+    background-color: #ff6600;
+    color: #fff;
+    padding: 15px 25px;
+    text-decoration: none;
+    font-size: 20px;
+    border-radius: 5px;
+}
+
+.section {
+    padding: 30px;
+    background-color: #fff;
+    margin: 20px 0;
+}
+
+footer {
+    background-color: #005b5b;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+}
+
+.form-container input, .form-container textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+}
+
+.form-container button {
+    background-color: #005b5b;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+.form-container button:hover {
+    background-color: #003b3b;
+}
