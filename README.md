@@ -20,7 +20,6 @@ This project is tailored for customer service teams who need an efficient tool t
 ## Installation Guide
 ### Prerequisites
 - Python 3.x
-- Node.js and npm
 - Git
 
 ### Steps
@@ -34,22 +33,13 @@ This project is tailored for customer service teams who need an efficient tool t
    ```bash
    python -m venv venv
    source venv/bin/activate   # On Windows use `venv\Scripts\activate`
-   pip install -r requirements.txt
+   pip install django
    python manage.py migrate
    python manage.py runserver
    ```
 
-3. **Set up the frontend (React)**:
-   ```bash
-   cd frontend
-   npm install
-   npm start
-   ```
-
 ## Usage
 - Navigate to `http://localhost:8000` to access the Django backend.
-- Navigate to `http://localhost:3000` to access the React frontend.
-
 ## Project Structure
 ```
 customer-service-management/
