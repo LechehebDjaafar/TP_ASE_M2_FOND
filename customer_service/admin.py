@@ -1,17 +1,18 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from django.urls import reverse
-from .models import Reservation, Reclamation, Ponderation
+from .models import Reservation, Reclamation, Ponderation, ChatCategory, FrequentlyAskedQuestion, ChatMessage
+
 
 @admin.register(Reservation)
 class ReservationAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'subscription_type', 'status', 'number_of_cards', 
-                   'tickets_remaining', 'start_date', 'end_date', 'created_at')
+    list_display = ('id', 'user', 'subscription_type', 'status', 'number_of_cards',
+                    'tickets_remaining', 'start_date', 'end_date', 'created_at')
     list_filter = ('status', 'subscription_type', 'created_at')
     search_fields = ('user__username', 'user__email')
     date_hierarchy = 'created_at'
     readonly_fields = ('created_at', 'updated_at')
-    
+
     fieldsets = (
         ('User Information', {
             'fields': ('user',)
@@ -30,7 +31,7 @@ class ReservationAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         return super().get_queryset(request).select_related('user')
-    
+
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
         # Recalculate points when subscription type changes
@@ -39,19 +40,21 @@ class ReservationAdmin(admin.ModelAdmin):
             Ponderation.objects.create(
                 user=obj.user,
                 points=points,
-                reason=f"Points update for {obj.get_subscription_type_display()} subscription",
+                reason=f"Points update for {
+                    obj.get_subscription_type_display()} subscription",
                 reservation=obj
             )
 
+
 @admin.register(Reclamation)
 class ReclamationAdmin(admin.ModelAdmin):
-    list_display = ('id', 'get_user', 'title', 'priority', 'status', 'created_at', 
-                   'view_reservation_link')
+    list_display = ('id', 'get_user', 'title', 'priority', 'status', 'created_at',
+                    'view_reservation_link')
     list_filter = ('status', 'priority', 'created_at')
     search_fields = ('user__username', 'user__email', 'title', 'description')
     date_hierarchy = 'created_at'
     readonly_fields = ('created_at', 'updated_at')
-    
+
     fieldsets = (
         ('Complaint Information', {
             'fields': ('user', 'title', 'description')
@@ -68,10 +71,11 @@ class ReclamationAdmin(admin.ModelAdmin):
     def get_user(self, obj):
         return f"{obj.user.get_full_name()} ({obj.user.email})"
     get_user.short_description = 'User'
-    
+
     def view_reservation_link(self, obj):
         if obj.reservation:
-            url = reverse('admin:customer_service_reservation_change', args=[obj.reservation.id])
+            url = reverse('admin:customer_service_reservation_change', args=[
+                          obj.reservation.id])
             return format_html('<a href="{}">View Reservation</a>', url)
         return "No Reservation"
     view_reservation_link.short_description = 'Associated Reservation'
@@ -79,14 +83,17 @@ class ReclamationAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         return super().get_queryset(request).select_related('user', 'reservation')
 
+
 @admin.register(Ponderation)
 class PonderationAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'points', 'reason', 'get_reservation_info', 'created_at')
+    list_display = ('id', 'user', 'points', 'reason',
+                    'get_reservation_info', 'created_at')
     list_filter = ('created_at', 'points')
-    search_fields = ('user__username', 'user__email', 'reason', 'reservation__subscription_type')
+    search_fields = ('user__username', 'user__email',
+                     'reason', 'reservation__subscription_type')
     date_hierarchy = 'created_at'
     readonly_fields = ('created_at',)
-    
+
     fieldsets = (
         ('Rating Information', {
             'fields': ('user', 'points', 'reason', 'reservation')
@@ -99,7 +106,8 @@ class PonderationAdmin(admin.ModelAdmin):
 
     def get_reservation_info(self, obj):
         if obj.reservation:
-            url = reverse('admin:customer_service_reservation_change', args=[obj.reservation.id])
+            url = reverse('admin:customer_service_reservation_change', args=[
+                          obj.reservation.id])
             return format_html(
                 '{} - {} ({})<br><a href="{}">View Reservation</a>',
                 obj.reservation.get_subscription_type_display(),
@@ -115,6 +123,8 @@ class PonderationAdmin(admin.ModelAdmin):
         return super().get_queryset(request).select_related('user', 'reservation')
 
 # Custom Date Range Filter
+
+
 class DateRangeFilter(admin.SimpleListFilter):
     title = 'Date Range'
     parameter_name = 'date_range'
@@ -130,7 +140,7 @@ class DateRangeFilter(admin.SimpleListFilter):
     def queryset(self, request, queryset):
         from django.utils import timezone
         from datetime import timedelta
-        
+
         if self.value() == 'today':
             today = timezone.now().date()
             return queryset.filter(created_at__date=today)
@@ -144,7 +154,32 @@ class DateRangeFilter(admin.SimpleListFilter):
             year_ago = timezone.now().date() - timedelta(days=365)
             return queryset.filter(created_at__date__gte=year_ago)
 
-# Apply the custom filter to all models
+
+@admin.register(ChatCategory)
+class ChatCategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description')
+    search_fields = ('name',)
+
+
+@admin.register(FrequentlyAskedQuestion)
+class FrequentlyAskedQuestionAdmin(admin.ModelAdmin):
+    list_display = ('question', 'category', 'is_active', 'created_at')
+    list_filter = ('category', 'is_active', 'created_at')
+    search_fields = ('question', 'answer')
+
+
+@admin.register(ChatMessage)
+class ChatMessageAdmin(admin.ModelAdmin):
+    list_display = ('user', 'sender', 'message_preview',
+                    'timestamp', 'is_read')
+    list_filter = ('sender', 'timestamp', 'is_read')
+    search_fields = ('message',)
+
+    def message_preview(self, obj):
+        return obj.message[:50] + '...' if len(obj.message) > 50 else obj.message
+    message_preview.short_description = 'Message Preview'
+
+
 ReservationAdmin.list_filter += (DateRangeFilter,)
 ReclamationAdmin.list_filter += (DateRangeFilter,)
 PonderationAdmin.list_filter += (DateRangeFilter,)
