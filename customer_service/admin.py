@@ -163,10 +163,47 @@ class ChatCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(FrequentlyAskedQuestion)
 class FrequentlyAskedQuestionAdmin(admin.ModelAdmin):
-    list_display = ('question', 'category', 'is_active', 'created_at')
-    list_filter = ('category', 'is_active', 'created_at')
+    list_display = ('question', 'is_active', 'created_at')
+    list_filter = ( 'is_active', 'created_at')
     search_fields = ('question', 'answer')
 
+
+# FrequentlyAskedQuestion.objects.create(
+#     question="How can I recharge my tram card?",
+#     answer="You can recharge your tram card via our website or at any tram station."
+# )
+# FrequentlyAskedQuestion.objects.create(
+#     question="What should I do if I lose my tram card?",
+#     answer="Please contact customer service immediately to block your card."
+# )
+# FrequentlyAskedQuestion.objects.create(
+#     question="Where can I find tram schedules?",
+#     answer="You can find tram schedules on our website or the SETRAM mobile app."
+# )
+# FrequentlyAskedQuestion.objects.create(
+#     question="Is there a discount for students?",
+#     answer="Yes, we offer discounted subscriptions for students with a valid ID."
+# )
+# FrequentlyAskedQuestion.objects.create(
+#     question="Can I transfer my balance to another card?",
+#     answer="No, balance transfers between cards are not allowed."
+# )
+# FrequentlyAskedQuestion.objects.create(
+#     question="What payment methods are accepted?",
+#     answer="We accept cash, credit cards, and mobile payment options at stations."
+# )
+# FrequentlyAskedQuestion.objects.create(
+#     question="Are trams accessible for disabled passengers?",
+#     answer="Yes, all trams are equipped with facilities for disabled passengers."
+# )
+# FrequentlyAskedQuestion.objects.create(
+#     question="How can I report an issue or complaint?",
+#     answer="You can report issues through our website or contact customer service directly."
+# )
+# FrequentlyAskedQuestion.objects.create(
+#     question="Is there a mobile app for SETRAM?",
+#     answer="Yes, the SETRAM app is available on Android and iOS for schedules and card management."
+# )
 
 @admin.register(ChatMessage)
 class ChatMessageAdmin(admin.ModelAdmin):

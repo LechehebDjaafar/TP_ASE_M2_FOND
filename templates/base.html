@@ -71,16 +71,31 @@
       {% endif %} {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-white shadow-lg mt-8">
-      <div class="container mx-auto px-4 py-6">
-        <div class="text-center text-gray-600">
-          All rights reserved © {% now "Y" %}
-        </div>
+<!-- Footer -->
+<footer class="bg-white shadow-lg mt-8">
+  <div class="container mx-auto px-4 py-6">
+    <div class="text-center text-gray-600">
+      All rights reserved © {% now "Y" %}
+    </div>
+    <div class="text-center mt-4 space-y-2">
+      <!-- Contact Us Information -->
+      <div class="text-gray-700">
+        <strong>Contact Us:</strong> info@example.com | +123 456 7890
       </div>
-    </footer>
+      <!-- Team Information -->
+      <div class="text-gray-700">
+        <strong>Team:</strong> Our dedicated team of professionals is here to help you 24/7.
+      </div>
+      <!-- FAQ Link -->
+      <a href="{% url 'customer_service:chat_room' %}" class="text-blue-600 hover:underline">
+        FAQ
+      </a>
+    </div>
+  </div>
+</footer>
 
-    <!-- Scripts -->
+
+    
     <script
       src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js"
       defer

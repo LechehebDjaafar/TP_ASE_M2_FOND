@@ -1,165 +1,82 @@
-{% extends 'base.html' %} {% block title %}Chat History{% endblock %} {% block
-content %}
+{% extends 'base.html' %}
+{% block title %}Chat History{% endblock %}
+
+{% block content %}
 <div class="container mx-auto px-4 py-6">
-  <div
-    class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden"
-  >
-    <div
-      class="bg-blue-600 text-white p-4 rounded-t-xl flex justify-between items-center"
-    >
+  <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+    <div class="bg-blue-600 text-white p-4 rounded-t-xl flex justify-between items-center">
       <h2 class="text-xl font-bold flex items-center">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 mr-2"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-          />
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
         </svg>
         Your Chat History
       </h2>
-      <a
-        href="{% url 'customer_service:chat_room' %}"
-        class="text-white hover:text-blue-200 transition duration-300 tooltip"
-        title="Back to Chat Room"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"
-          />
+      <a href="{% url 'customer_service:chat_room' %}" class="text-white hover:text-blue-200 transition duration-300 tooltip" title="Back to Chat Room">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
         </svg>
       </a>
     </div>
 
     <div class="p-4 md:p-6">
       {% if messages %}
-      <div class="space-y-4">
-        {% for message in messages %}
-        <div
-          class="border rounded-lg p-4 {% if message.sender == 'user' %}bg-blue-50 border-blue-200{% else %}bg-green-50 border-green-200{% endif %} transition hover:shadow-sm"
-        >
-          <div class="flex justify-between items-center mb-2">
-            <span
-              class="font-bold {% if message.sender == 'user' %}text-blue-700{% else %}text-green-700{% endif %}"
-            >
-              {% if message.sender == 'user' %}You{% else %}Support Bot{% endif
-              %}
-            </span>
-            <span class="text-sm text-gray-500">
-              <time datetime="{{ message.timestamp|date:'Y-m-d H:i' }}">
-                {{ message.timestamp|date:"F d, Y H:i" }}
-              </time>
-            </span>
-          </div>
-          <p class="text-gray-800 break-words">{{ message.message }}</p>
+        <div class="space-y-4">
+          {% for message in messages %}
+            <div class="border rounded-lg p-4 {% if message.sender == 'user' %}bg-blue-50 border-blue-200{% else %}bg-green-50 border-green-200{% endif %} transition hover:shadow-sm">
+              <div class="flex justify-between items-center mb-2">
+                <span class="font-bold {% if message.sender == 'user' %}text-blue-700{% else %}text-green-700{% endif %}">
+                  {% if message.sender == 'user' %}You{% else %}Support Bot{% endif %}
+                </span>
+                <span class="text-sm text-gray-500">
+                  <time datetime="{{ message.timestamp|date:'Y-m-d H:i' }}">{{ message.timestamp|date:"F d, Y H:i" }}</time>
+                </span>
+              </div>
+              <p class="text-gray-800 break-words">{{ message.message }}</p>
+            </div>
+          {% endfor %}
         </div>
-        {% endfor %}
-      </div>
       {% else %}
-      <div class="text-center text-gray-500 py-12">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-20 w-20 mx-auto mb-6 text-gray-400"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-          />
-        </svg>
-        <p class="text-lg mb-4">No chat messages yet. Start a conversation!</p>
-        <a
-          href="{% url 'customer_service:chat_room' %}"
-          class="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition duration-300 space-x-2"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"
-              clip-rule="evenodd"
-            />
+        <div class="text-center text-gray-500 py-12">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 mx-auto mb-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
           </svg>
-          <span>Go to Chat Room</span>
-        </a>
-      </div>
+          <p class="text-lg mb-4">No chat messages yet. Start a conversation!</p>
+          <a href="{% url 'customer_service:chat_room' %}" class="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition duration-300 space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd" />
+            </svg>
+            <span>Go to Chat Room</span>
+          </a>
+        </div>
       {% endif %}
     </div>
 
     {% if messages.has_other_pages %}
-    <div class="p-4 border-t bg-gray-50 flex justify-center">
-      <nav aria-label="Pagination" class="inline-flex items-center space-x-2">
-        {% if messages.has_previous %}
-        <a
-          href="?page={{ messages.previous_page_number }}"
-          class="px-4 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-100 transition duration-300 flex items-center"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5 mr-2"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          Previous
-        </a>
-        {% endif %} {% for page in messages.paginator.page_range %}
-        <a
-          href="?page={{ page }}"
-          class="px-4 py-2 {% if messages.number == page %}bg-blue-600 text-white{% else %}bg-white border border-gray-300 text-gray-700{% endif %} rounded-md hover:bg-gray-100 transition duration-300"
-        >
-          {{ page }}
-        </a>
-        {% endfor %} {% if messages.has_next %}
-        <a
-          href="?page={{ messages.next_page_number }}"
-          class="px-4 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-100 transition duration-300 flex items-center"
-        >
-          Next
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5 ml-2"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </a>
-        {% endif %}
-      </nav>
-    </div>
+      <div class="p-4 border-t bg-gray-50 flex justify-center">
+        <nav aria-label="Pagination" class="inline-flex items-center space-x-2">
+          {% if messages.has_previous %}
+            <a href="?page={{ messages.previous_page_number }}" class="px-4 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-100 transition duration-300 flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              Previous
+            </a>
+          {% endif %}
+          {% for page in messages.paginator.page_range %}
+            <a href="?page={{ page }}" class="px-4 py-2 {% if messages.number == page %}bg-blue-600 text-white{% else %}bg-white border border-gray-300 text-gray-700{% endif %} rounded-md hover:bg-gray-100 transition duration-300">
+              {{ page }}
+            </a>
+          {% endfor %}
+          {% if messages.has_next %}
+            <a href="?page={{ messages.next_page_number }}" class="px-4 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-100 transition duration-300 flex items-center">
+              Next
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+              </svg>
+            </a>
+          {% endif %}
+        </nav>
+      </div>
     {% endif %}
   </div>
 </div>

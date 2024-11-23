@@ -123,22 +123,22 @@
       </h4>
       <div class="space-y-3">
         <a
-          href="#"
+          href="{% url 'customer_service:submit_reclamation' %}"
           class="block bg-gray-100 hover:bg-blue-50 p-3 rounded-md transition duration-300"
         >
-          📞 Contact Support
+          📞 Report problems with tickets
         </a>
         <a
-          href="#"
+          href="{% url 'customer_service:reservation_status' %}"
           class="block bg-gray-100 hover:bg-blue-50 p-3 rounded-md transition duration-300"
         >
-          📚 Knowledge Base
+          📚 Where is my reservation?
         </a>
         <a
-          href="#"
+          href="{% url 'customer_service:ponderation' %}"
           class="block bg-gray-100 hover:bg-blue-50 p-3 rounded-md transition duration-300"
         >
-          🌐 Support Website
+          🌐 How many points do I have?
         </a>
       </div>
     </div>

@@ -83,11 +83,10 @@ def chat_room(request):
     """
     Main chat room view with FAQ and chat interface
     """
-    categories = ChatCategory.objects.all()
+    
     faqs = FrequentlyAskedQuestion.objects.filter(is_active=True)
 
     context = {
-        'categories': categories,
         'faqs': faqs
     }
     return render(request, 'customer_service/chat_room.html', context)
@@ -119,7 +118,7 @@ def get_faq_answer(request):
             user=request.user,
             sender='user',
             message=faq.question,
-            category=faq.category
+           
         )
 
         # Log bot response
@@ -127,7 +126,7 @@ def get_faq_answer(request):
             user=request.user,
             sender='bot',
             message=faq.answer,
-            category=faq.category
+           
         )
 
         return JsonResponse({

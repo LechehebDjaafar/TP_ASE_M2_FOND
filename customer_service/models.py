@@ -116,12 +116,12 @@ class FrequentlyAskedQuestion(models.Model):
     """
     Frequently Asked Questions model
     """
-    category = models.ForeignKey(
-        ChatCategory,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name='faqs'
-    )
+    # category = models.ForeignKey(
+    #     ChatCategory,
+    #     on_delete=models.SET_NULL,
+    #     null=True,
+    #     related_name='faqs'
+    # )
     question = models.CharField(max_length=500)
     answer = models.TextField()
     is_active = models.BooleanField(default=True)
